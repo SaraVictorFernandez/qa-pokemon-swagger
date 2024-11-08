@@ -115,7 +115,7 @@ paths:
   /trainers:
     get:
       summary: Get all trainers
-      description: Retrieve a list of all Pokémon trainers.
+      description: Retrieve a list of all Pokémon trainers with their basic info.
       security:
         - BearerAuth: []
       responses:
