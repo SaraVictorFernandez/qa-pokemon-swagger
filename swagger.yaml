@@ -243,7 +243,7 @@ paths:
           description: Team not found
         '500':
           description: Internal Server Error
-  /walk:
+  /walk_grass:
     post:
       summary: Walk in the grass to encounter a new Pokémon
       description: Walk in either tall or low grass to encounter a random Pokémon. The level of the encountered Pokémon will depend on the type of grass (low grass produces pokemons between levels 1 and 30, tall grass produces pokemons between levels 31 and 50).
