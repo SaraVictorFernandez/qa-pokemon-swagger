@@ -549,10 +549,10 @@ paths:
       description: Evolve a Pokémon owned by the trainer if it meets the evolution requirements. The evolution may require a specific item (e.g., fire_stone, water_stone, electric_stone).
         Evolve a Pokémon owned by the trainer if it meets the evolution requirements. The evolution may require a specific item (e.g., fire_stone, water_stone, electric_stone), and the Pokémon must have reached the required level to evolve. 
         Examples of Pokémon level requirements to evolve
-          - Wartortle evolves to Blastoise at level 35.
-          - Caterpie evolves to Metapod at level 7.
-          - Pikachu evolves to Raichu at level 25.
-          - Eevee requires a specific item (fire_stone, water_stone, or electric_stone) to evolve into Flareon, Vaporeon, or Jolteon, respectively.
+        Wartortle evolves to Blastoise at level 35.
+        Caterpie evolves to Metapod at level 7.
+        Pikachu evolves to Raichu at level 25.
+        Eevee requires a specific item (fire_stone, water_stone, or electric_stone) to evolve into Flareon, Vaporeon, or Jolteon, respectively.
       requestBody:
         required: true
         content:
