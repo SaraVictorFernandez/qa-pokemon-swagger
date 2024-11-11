@@ -243,6 +243,43 @@ paths:
           description: Team not found
         '500':
           description: Internal Server Error
+  /trainers/{id}/delete:
+  delete:
+    summary: Delete a trainer account
+    description: Deletes the trainer account along with all associated Pokémon.
+    security:
+      - BearerAuth: []
+    responses:
+      '200':
+        description: Trainer account deleted successfully.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  description: Confirmation that the trainer account was deleted.
+      '403':
+        description: Unauthorized. The request must include a valid session token.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  description: Error message indicating why the request was unauthorized.
+      '400':
+        description: Bad request. An error occurred during deletion.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  description: Error message indicating what went wrong.
   /walk_grass:
     post:
       summary: Walk in the grass to encounter a new Pokémon
