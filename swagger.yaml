@@ -473,6 +473,7 @@ paths:
       description: Allows a trainer to attack a target Pokémon using one of their own Pokémon (the ones they have on their team). The level difference influences on the winning probability (with a minimum probability of 10% of winning for either side).
         After winning after an attack, the pokemon will receive experience points.
         If the attacker loses, the pokemon will be dizzy for 5 seconds and won't be able to do any attacks during that time.
+        You have a 5% chance of getting an item after an attack
       requestBody:
         required: true
         content:
@@ -517,6 +518,9 @@ paths:
                         format: date-time
                         nullable: true
                         description: The last time the Pokémon was defeated (if applicable).
+                  item:
+                    type: string
+                    description: An item dropped by the pokemon
         '401':
           description: Unauthorized. The request must include a valid session token.
           content:
