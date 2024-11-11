@@ -600,7 +600,7 @@ paths:
                 pokemon_id:
                   type: string
                   description: The ID of the Pokémon to evolve.
-                object:
+                item:
                   type: string
                   description: The evolution item used to evolve the Pokémon (e.g., fire_stone, water_stone, electric_stone). Required if evolving Pokémon like Eevee.
               required:
