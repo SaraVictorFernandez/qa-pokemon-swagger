@@ -610,7 +610,7 @@ paths:
                   error:
                     type: string
                     description: Error message indicating what went wrong.
-        '200':
+        '400 (2)':
           description: No evolution available or requirements not met.
           content:
             application/json:
