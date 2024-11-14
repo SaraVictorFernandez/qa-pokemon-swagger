@@ -661,6 +661,80 @@ paths:
                   message:
                     type: string
                     description: Message explaining why the Pokémon couldn't evolve.
+  /rename:
+    post:
+      summary: Rename a Pokémon
+      description: Rename a Pokémon owned by the trainer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pokemon_id:
+                  type: string
+                  description: The ID of the Pokémon to rename.
+                alias:
+                  type: string
+                  description: The new alias for the Pokémon.
+              required:
+                - pokemon_id
+                - alias
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Successfully renamed Pokémon.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Message indicating that the Pokémon was renamed successfully.
+                  pokemon:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier for the Pokémon.
+                      name:
+                        type: string
+                        description: New alias for the Pokémon.
+                      level:
+                        type: integer
+                        description: Current level of the Pokémon.
+                      trainer_id:
+                        type: string
+                        description: Trainer ID that owns the Pokémon.
+                      caught_at:
+                        type: string
+                        format: date-time
+                        description: Date and time when the Pokémon was caught.
+                      gained_exp:
+                        type: integer
+                        description: Experience points gained by the Pokémon.
+                      status:
+                        type: string
+                        description: Status of the Pokémon (e.g., WILD, CAPTURED, FREE).
+                      exp_on_defeat:
+                        type: integer
+                        description: Experience points awarded when defeating this Pokémon.
+                      is_shiny:
+                        type: boolean
+                        description: Indicates if the Pokémon is shiny.
+        '401':
+          description: Unauthorized. The request must include a valid session token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message indicating why the request was unauthorized.
 components:
   securitySchemes:
     BearerAuth:
