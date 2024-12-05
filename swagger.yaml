@@ -131,8 +131,6 @@ paths:
     get:
       summary: Get help message
       description: Provides an introduction to the Pokémon world and guides trainers on their journey.
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: Help message with an introduction and guidance.
@@ -268,8 +266,6 @@ paths:
     get:
       summary: List shop items
       description: Retrieves a list of items available in the shop.
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: List of shop items.
@@ -378,8 +374,6 @@ paths:
     get:
       summary: Get all trainers
       description: Retrieves a list of all trainers.
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: List of trainers.
@@ -413,8 +407,6 @@ paths:
     get:
       summary: Get a trainer by ID
       description: Retrieves details of a specific trainer by their ID.
-      security:
-        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -457,8 +449,6 @@ paths:
     get:
       summary: Get trainer's team
       description: Retrieves the Pokémon team of a specific trainer by their ID.
-      security:
-        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -490,8 +480,6 @@ paths:
     get:
       summary: Attack another trainer
       description: Initiates an attack on another trainer's team.
-      security:
-        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -515,8 +503,6 @@ paths:
     post:
       summary: Walk in the grass to discover wild Pokémon
       description: Simulates walking in grass, with a chance to encounter a wild Pokémon.
-      security:
-        - bearerAuth: []
       requestBody:
         description: Type of grass being walked through.
         required: true
@@ -569,8 +555,6 @@ paths:
     post:
       summary: Attack a wild Pokémon
       description: Engage in combat with a specific wild Pokémon.
-      security:
-        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -655,8 +639,6 @@ paths:
     get:
       summary: Get details of a specific city
       description: Fetches detailed information about a specific city by its ID.
-      security:
-        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -1113,6 +1095,62 @@ paths:
                 $ref: '#/components/schemas/CombatActionResponse'
         '400':
           description: Cannot flee from this combat
+
+  /combats/{id}/switch:
+    post:
+      summary: Switch active Pokémon in combat
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Combat ID
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pokemonId:
+                  type: string
+                  description: ID of the Pokémon to switch to
+              required:
+                - pokemonId
+      responses:
+        '200':
+          description: Pokémon switched successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CombatActionResponse'
+        '400':
+          description: Invalid switch action or not in combat
+
+  /combats/{id}/wait:
+    post:
+      summary: Skip turn in combat
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Combat ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Turn skipped successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CombatActionResponse'
+        '400':
+          description: Invalid wait action or not in combat
 
 components:
   securitySchemes:
