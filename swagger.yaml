@@ -958,6 +958,8 @@ paths:
   /combats:
     get:
       summary: List all combats for a trainer
+      security:
+        - bearerAuth: []
       parameters:
         - name: status
           in: query
@@ -979,9 +981,12 @@ paths:
                   $ref: '#/components/schemas/Combat'
         '400':
           description: Invalid request
+
   /combats/{id}:
     get:
       summary: Get details of a specific combat
+      security:
+        - bearerAuth: []
       parameters:
         - name: id
           in: path
@@ -998,9 +1003,12 @@ paths:
                 $ref: '#/components/schemas/Combat'
         '404':
           description: Combat not found
+
   /combats/{id}/attack:
     post:
       summary: Attack in a combat
+      security:
+        - bearerAuth: []
       parameters:
         - name: id
           in: path
@@ -1032,9 +1040,12 @@ paths:
                 $ref: '#/components/schemas/CombatActionResponse'
         '400':
           description: Invalid attack action
+
   /combats/{id}/item:
     post:
       summary: Use an item in a combat
+      security:
+        - bearerAuth: []
       parameters:
         - name: id
           in: path
@@ -1062,9 +1073,12 @@ paths:
                 $ref: '#/components/schemas/CombatActionResponse'
         '400':
           description: Invalid item action
+
   /combats/{id}/flee:
     post:
       summary: Flee from a combat
+      security:
+        - bearerAuth: []
       parameters:
         - name: id
           in: path
