@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Pokemon Battle API
   description: A complete Pokemon game API with battles, trades, and trainer management
-  version: 1.0.0
+  version: 1.0.1
 
 servers:
   - url: https://wynrikrqhifuvwgbcncs.supabase.co/functions/v1
