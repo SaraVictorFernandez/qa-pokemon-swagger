@@ -623,7 +623,400 @@ paths:
         '500':
           description: Server error.
 
-  
+  /box/transfer:
+    post:
+      summary: Transfer Pokémon between box and team
+      description: Transfers a Pokémon between the trainer's box and team. A trainer can have a maximum of 6 Pokémon in their team and must have at least one Pokémon in the team at all times.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pokemonId:
+                  type: string
+                  description: ID of the Pokémon to transfer.
+              required:
+                - pokemonId
+              example:
+                pokemonId: "12345"
+      responses:
+        '200':
+          description: Pokémon transfer successful.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Transfer status message.
+                  newTeam:
+                    type: array
+                    description: Updated team after transfer.
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Pokémon ID.
+                        name:
+                          type: string
+                          description: Pokémon name.
+                        level:
+                          type: integer
+                          description: Pokémon level.
+                      example:
+                        id: "12345"
+                        name: "Pikachu"
+                        level: 12
+        '400':
+          description: Transfer failed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+              example:
+                error: "You need to have at least 1 Pokémon in your team."
+        '401':
+          description: Unauthorized access.
+        '500':
+          description: Server error.
+  /box:
+    get:
+      summary: List all Pokémon in the box
+      description: Retrieves a list of all Pokémon currently in the trainer's box.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of Pokémon in the box.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  box:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Pokémon ID.
+                        name:
+                          type: string
+                          description: Pokémon name.
+                        level:
+                          type: integer
+                          description: Pokémon level.
+                      example:
+                        id: "12345"
+                        name: "Bulbasaur"
+                        level: 8
+        '401':
+          description: Unauthorized access.
+        '500':
+          description: Server error.
+
+  /trades/propose:
+    post:
+      summary: Propose a Pokémon trade
+      description: Allows a trainer to propose a trade by offering one of their Pokémon in exchange for another trainer's Pokémon.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                offerPokemonId:
+                  type: string
+                  description: ID of the Pokémon the trainer is offering.
+                askingPokemonId:
+                  type: string
+                  description: ID of the Pokémon the trainer wants.
+              required:
+                - offerPokemonId
+                - askingPokemonId
+              example:
+                offerPokemonId: "12345"
+                askingPokemonId: "67890"
+      responses:
+        '200':
+          description: Trade proposal created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tradeId:
+                    type: string
+                    description: ID of the created trade.
+                  status:
+                    type: string
+                    description: Trade status.
+                  offerPokemonId:
+                    type: string
+                    description: ID of the offered Pokémon.
+                  askingPokemonId:
+                    type: string
+                    description: ID of the requested Pokémon.
+                example:
+                  tradeId: "112233"
+                  status: "PENDING"
+                  offerPokemonId: "12345"
+                  askingPokemonId: "67890"
+        '400':
+          description: Bad request or validation error.
+        '401':
+          description: Unauthorized access.
+  /trades/{id}/accept:
+    post:
+      summary: Accept a Pokémon trade
+      description: Allows the trainer receiving the trade to accept it, completing the trade process.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the trade to accept.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Trade accepted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tradeId:
+                    type: string
+                    description: ID of the trade.
+                  status:
+                    type: string
+                    description: Updated trade status.
+                example:
+                  tradeId: "112233"
+                  status: "COMPLETED"
+        '400':
+          description: Invalid trade or insufficient permissions.
+        '401':
+          description: Unauthorized access.
+        '404':
+          description: Trade not found.
+  /trades/{id}/reject:
+    post:
+      summary: Reject a Pokémon trade
+      description: Allows a trainer to reject a trade, canceling it.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the trade to reject.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Trade rejected successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message.
+                example:
+                  message: "Trade rejected"
+        '400':
+          description: Invalid trade or insufficient permissions.
+        '401':
+          description: Unauthorized access.
+        '404':
+          description: Trade not found.
+  /trades:
+    get:
+      summary: List trades
+      description: Retrieves all trades involving the current trainer, optionally filtering by trade status.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          required: false
+          description: Filter trades by status (e.g., PENDING, COMPLETED, REJECTED).
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of trades.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    tradeId:
+                      type: string
+                      description: ID of the trade.
+                    status:
+                      type: string
+                      description: Trade status.
+                    offerPokemonId:
+                      type: string
+                      description: ID of the offered Pokémon.
+                    askingPokemonId:
+                      type: string
+                      description: ID of the requested Pokémon.
+                  example:
+                    tradeId: "112233"
+                    status: "PENDING"
+                    offerPokemonId: "12345"
+                    askingPokemonId: "67890"
+        '401':
+          description: Unauthorized access.
+
+  /combats:
+    get:
+      summary: List all combats for a trainer
+      parameters:
+        - name: status
+          in: query
+          description: Filter combats by status
+          required: false
+          schema:
+            type: string
+            enum:
+              - IN_PROGRESS
+              - FINISHED
+      responses:
+        '200':
+          description: A list of combats
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Combat'
+        '400':
+          description: Invalid request
+  /combats/{id}:
+    get:
+      summary: Get details of a specific combat
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Combat ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Combat details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Combat'
+        '404':
+          description: Combat not found
+  /combats/{id}/attack:
+    post:
+      summary: Attack in a combat
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Combat ID
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                attackType:
+                  type: string
+                  enum:
+                    - rock
+                    - paper
+                    - scissors
+              required:
+                - attackType
+      responses:
+        '200':
+          description: Attack successfully executed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CombatActionResponse'
+        '400':
+          description: Invalid attack action
+  /combats/{id}/item:
+    post:
+      summary: Use an item in a combat
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Combat ID
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                itemId:
+                  type: string
+              required:
+                - itemId
+      responses:
+        '200':
+          description: Item used successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CombatActionResponse'
+        '400':
+          description: Invalid item action
+  /combats/{id}/flee:
+    post:
+      summary: Flee from a combat
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Combat ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully fled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CombatActionResponse'
+        '400':
+          description: Cannot flee from this combat
 
 components:
   securitySchemes:
