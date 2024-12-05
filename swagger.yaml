@@ -7,7 +7,6 @@ info:
 servers:
   - url: https://wynrikrqhifuvwgbcncs.supabase.co/functions/v1
     description: Supabase Edge Functions
-
 paths:
   /auth/login:
     post:
