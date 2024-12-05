@@ -368,6 +368,261 @@ paths:
           description: Trainer not found.
         '500':
           description: Server error.
+  /trainers/me:
+    get:
+      summary: Get current trainer
+      description: Retrieves details of the trainer associated with the provided session token.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Trainer details.
+        '401':
+          description: Unauthorized access.
+        '404':
+          description: Trainer not found.
+  /trainers/{id}/team:
+    get:
+      summary: Get trainer's team
+      description: Retrieves the Pokémon team of a specific trainer by their ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Trainer ID.
+      responses:
+        '200':
+          description: List of Pokémon in the trainer's team.
+        '404':
+          description: Trainer or team not found.
+        '500':
+          description: Server error.
+  /trainers/me/team:
+    get:
+      summary: Get current trainer's team
+      description: Retrieves the Pokémon team of the trainer associated with the session token.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of Pokémon in the trainer's team.
+        '401':
+          description: Unauthorized access.
+        '500':
+          description: Server error.
+  /trainers/{id}/attack:
+    get:
+      summary: Attack another trainer
+      description: Initiates an attack on another trainer's team.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Target trainer ID.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Attack results.
+        '400':
+          description: Invalid request, e.g., attacking oneself or a trainer with no team.
+        '401':
+          description: Unauthorized access.
+        '500':
+          description: Server error.
+
+  /wilderness/walk-grass:
+    post:
+      summary: Walk in the grass to discover wild Pokémon
+      description: Simulates walking in grass, with a chance to encounter a wild Pokémon.
+      requestBody:
+        description: Type of grass being walked through.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum: [short, tall]
+                  description: Type of grass, influencing the probability of encountering a Pokémon.
+              example:
+                type: "tall"
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Encountered Pokémon details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Pokémon ID.
+                  name:
+                    type: string
+                    description: Pokémon name.
+                  level:
+                    type: integer
+                    description: Pokémon level.
+                  status:
+                    type: string
+                    description: Encounter status (e.g., wild).
+        '401':
+          description: Unauthorized access.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized."
+        '400':
+          description: Bad request.
+  /wilderness/pokemon/{id}/engage-combat:
+    post:
+      summary: Attack a wild Pokémon
+      description: Engage in combat with a specific wild Pokémon.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID of the Pokémon to engage in combat with.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Combat result.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    description: Outcome of the combat.
+                  trainerHealth:
+                    type: integer
+                    description: Trainer's Pokémon health after combat.
+                  wildPokemonHealth:
+                    type: integer
+                    description: Wild Pokémon health after combat.
+        '401':
+          description: Unauthorized access.
+        '404':
+          description: Pokémon not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Pokémon not found."
+        '500':
+          description: Server error.
+
+  /cities:
+    get:
+      summary: List all cities
+      description: Fetches a list of all available cities.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of cities.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Response message.
+                  cities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Unique identifier for the city.
+                        name:
+                          type: string
+                          description: Name of the city.
+                        description:
+                          type: string
+                          description: The description for the city.
+                      example:
+                        id: "123"
+                        name: "Pallet Town"
+                        description: "A nice town"
+        '401':
+          description: Unauthorized access.
+        '500':
+          description: Server error.
+  /cities/{id}:
+    get:
+      summary: Get details of a specific city
+      description: Fetches detailed information about a specific city by its ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Unique identifier for the city.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: City details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  city:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier for the city.
+                      name:
+                        type: string
+                        description: Name of the city.
+                      description:
+                        type: string
+                        description: Brief description of the city.
+                    example:
+                      id: "123"
+                      name: "Pallet Town"
+                      description: "A small town with a famous Pokémon laboratory."
+        '401':
+          description: Unauthorized access.
+        '404':
+          description: City not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "City not found."
+        '500':
+          description: Server error.
+
   
 
 components:
