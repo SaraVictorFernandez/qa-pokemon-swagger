@@ -499,8 +499,6 @@ paths:
           schema:
             type: string
           description: Target trainer ID.
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: Attack results.
@@ -531,8 +529,6 @@ paths:
                   description: Type of grass, influencing the probability of encountering a Pokémon.
               example:
                 type: "tall"
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: Encountered Pokémon details.
@@ -578,8 +574,6 @@ paths:
           schema:
             type: string
           description: ID of the Pokémon to engage in combat with.
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: Combat result.
@@ -664,8 +658,6 @@ paths:
           schema:
             type: string
           description: Unique identifier for the city.
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: City details.
