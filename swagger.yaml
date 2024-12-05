@@ -1114,6 +1114,62 @@ paths:
         '400':
           description: Cannot flee from this combat
 
+  /combats/{id}/switch:
+    post:
+      summary: Switch active Pokémon in combat
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Combat ID
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pokemonId:
+                  type: string
+                  description: ID of the Pokémon to switch to
+              required:
+                - pokemonId
+      responses:
+        '200':
+          description: Pokémon switched successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CombatActionResponse'
+        '400':
+          description: Invalid switch action or not in combat
+
+  /combats/{id}/wait:
+    post:
+      summary: Skip turn in combat
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Combat ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Turn skipped successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CombatActionResponse'
+        '400':
+          description: Invalid wait action or not in combat
+
 components:
   securitySchemes:
     bearerAuth:
