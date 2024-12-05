@@ -623,7 +623,7 @@ paths:
         '500':
           description: Server error.
 
-/box/transfer:
+  /box/transfer:
     post:
       summary: Transfer Pokémon between box and team
       description: Transfers a Pokémon between the trainer's box and team. A trainer can have a maximum of 6 Pokémon in their team and must have at least one Pokémon in the team at all times.
