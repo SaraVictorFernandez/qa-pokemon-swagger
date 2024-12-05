@@ -8,6 +8,70 @@ servers:
   - url: https://wynrikrqhifuvwgbcncs.supabase.co/functions/v1
     description: Supabase Edge Functions
 paths:
+  /register:
+    post:
+      summary: Register a new trainer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: The trainer's username
+                  example: "trainer123"
+                password:
+                  type: string
+                  description: The trainer's password
+                  example: "password123"
+                email:
+                  type: string
+                  description: The trainer's email
+                  example: "trainer@example.com"
+              required:
+                - username
+                - password
+                - email
+      responses:
+        '201':
+          description: Trainer successfully registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  trainerId:
+                    type: string
+                    description: The unique ID of the registered trainer
+                    example: "1234abcd"
+                  message:
+                    type: string
+                    description: Success message
+                    example: "Trainer registered successfully"
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+                    example: "Missing required fields"
+        '409':
+          description: Trainer with this username or email already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+                    example: "Username or email already exists"
   /auth/login:
     post:
       summary: Log in a user
