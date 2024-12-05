@@ -131,6 +131,8 @@ paths:
     get:
       summary: Get help message
       description: Provides an introduction to the Pokémon world and guides trainers on their journey.
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: Help message with an introduction and guidance.
@@ -266,6 +268,8 @@ paths:
     get:
       summary: List shop items
       description: Retrieves a list of items available in the shop.
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: List of shop items.
@@ -374,6 +378,8 @@ paths:
     get:
       summary: Get all trainers
       description: Retrieves a list of all trainers.
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: List of trainers.
@@ -407,6 +413,8 @@ paths:
     get:
       summary: Get a trainer by ID
       description: Retrieves details of a specific trainer by their ID.
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -449,6 +457,8 @@ paths:
     get:
       summary: Get trainer's team
       description: Retrieves the Pokémon team of a specific trainer by their ID.
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -480,6 +490,8 @@ paths:
     get:
       summary: Attack another trainer
       description: Initiates an attack on another trainer's team.
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -503,6 +515,8 @@ paths:
     post:
       summary: Walk in the grass to discover wild Pokémon
       description: Simulates walking in grass, with a chance to encounter a wild Pokémon.
+      security:
+        - bearerAuth: []
       requestBody:
         description: Type of grass being walked through.
         required: true
@@ -555,6 +569,8 @@ paths:
     post:
       summary: Attack a wild Pokémon
       description: Engage in combat with a specific wild Pokémon.
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
@@ -639,6 +655,8 @@ paths:
     get:
       summary: Get details of a specific city
       description: Fetches detailed information about a specific city by its ID.
+      security:
+        - bearerAuth: []
       parameters:
         - in: path
           name: id
