@@ -487,7 +487,7 @@ paths:
         '500':
           description: Server error.
   /trainers/{id}/attack:
-    get:
+    post:
       summary: Attack another trainer
       description: Initiates an attack on another trainer's team.
       security:
