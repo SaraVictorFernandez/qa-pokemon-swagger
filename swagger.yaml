@@ -508,6 +508,59 @@ paths:
           description: Unauthorized access.
         '500':
           description: Server error.
+  /trainers/me/accepts-pvp:
+    post:
+      summary: Update current trainer's PvP acceptance status
+      description: Updates whether the current trainer is accepting PvP battle challenges.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                acceptsPvp:
+                  type: boolean
+                  description: Whether to accept PvP battles
+              required:
+                - acceptsPvp
+              example:
+                acceptsPvp: false
+      responses:
+        '200':
+          description: PvP acceptance status updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  acceptsPvp:
+                    type: boolean
+                    description: Current PvP acceptance status
+                example:
+                  "message": "PvP setting changed."
+        '401':
+          description: Unauthorized access.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized"
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal server error"
 
   /wilderness/walk-grass:
     post:
