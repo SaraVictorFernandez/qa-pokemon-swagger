@@ -599,6 +599,39 @@ paths:
           description: Unauthorized access.
         '500':
           description: Server error.
+  /trainers/me/prowesses:
+    get:
+      summary: Get current trainer's accomplishments
+      description: Retrieves the accomplishments of the current trainer.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of accomplishments.
+        '401':
+          description: Unauthorized access.
+        '500':
+          description: Server error.
+  /trainers/{id}/prowesses:
+    get:
+      summary: Get a trainer's accomplishments
+      description: Retrieves the accomplishments of a specific trainer by their ID.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Trainer ID.
+      responses:
+        '200':
+          description: List of accomplishments.
+        '404':
+          description: Trainer not found.
+        '500':
+          description: Server error.
 
   /wilderness/walk-grass:
     post:
