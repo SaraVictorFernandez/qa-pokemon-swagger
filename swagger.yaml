@@ -521,13 +521,13 @@ paths:
             schema:
               type: object
               properties:
-                acceptsPvp:
+                acceptsPvP:
                   type: boolean
                   description: Whether to accept PvP battles
               required:
-                - acceptsPvp
+                - acceptsPvP
               example:
-                acceptsPvp: false
+                acceptsPvP: false
       responses:
         '200':
           description: PvP acceptance status updated successfully
@@ -536,7 +536,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  acceptsPvp:
+                  acceptsPvP:
                     type: boolean
                     description: Current PvP acceptance status
                 example:
