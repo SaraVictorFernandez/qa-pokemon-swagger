@@ -599,7 +599,7 @@ paths:
           description: Unauthorized access.
         '500':
           description: Server error.
-  /trainers/me/prowesses:
+  /trainers/me/achievements:
     get:
       summary: Get current trainer's accomplishments
       description: Retrieves the accomplishments of the current trainer.
@@ -612,7 +612,7 @@ paths:
           description: Unauthorized access.
         '500':
           description: Server error.
-  /trainers/{id}/prowesses:
+  /trainers/{id}/achievements:
     get:
       summary: Get a trainer's accomplishments
       description: Retrieves the accomplishments of a specific trainer by their ID.
