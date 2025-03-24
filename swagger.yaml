@@ -5,7 +5,7 @@ info:
   version: 1.0.0
 
 servers:
-  - url: https://wynrikrqhifuvwgbcncs.supabase.co/functions/v1
+  - url: https://qxdlzjeqyinupmlinwqg.supabase.co/functions/v1
     description: Supabase Edge Functions
 paths:
   /auth/login:
